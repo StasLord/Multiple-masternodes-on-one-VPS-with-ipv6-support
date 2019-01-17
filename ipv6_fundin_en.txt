@@ -1,0 +1,118 @@
+Installation instructions for IPV6 on the example of the Fundin coin
+
+Go to the terminal
+
+It is better to work not under the ROOT, but under your login, it seems to me safer:
+
+For a clean server under Ubuntu 16.04 / 18.04 we create a new user and install the libraries:
+
+adduser myname - create a new user (for example myname), the system will offer you to come up with a password for it, write it twice and remember%)
+
+usermod -a -G sudo myname - assign administrator rights for myname ( sudo )
+su myname                 - we go as user myname
+cd                        - go to the root of the user folder myname ( /home/myname )
+
+---- we put the necessary libraries -----
+sudo apt -y update
+
+sudo apt -y install build-essential libssl-dev libdb++-dev && sudo apt -y install libboost-all-dev libcrypto++-dev libqrencode-dev && sudo apt -y install libminiupnpc-dev libgmp-dev libgmp3-dev autoconf && sudo apt -y install autogen automake libtool autotools-dev pkg-config && sudo apt -y install bsdmainutils software-properties-common && sudo apt -y install libzmq3-dev libminiupnpc-dev libssl-dev libevent-dev && sudo add-apt-repository ppa:bitcoin/bitcoin
+
+sudo apt-get update
+
+sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
+
+Now we can proceed to install daemon / client
+
+1st option:
+At the time of writing, the latest version v.2.0.1, be careful when copying links from github
+go to the folder /usr/local/bin/
+cd /usr/local/bin/
+sudo wget https://github.com/fundin/fundin/releases/download/v2.0.1/fundind    - copy from github daemon
+sudo wget https://github.com/fundin/fundin/releases/download/v2.0.1/fundin-cli - copy from github client
+
+We make them binary
+sudo chmod 755 fundind     
+sudo chmod 755 fundin-cli  
+
+2nd option:
+Go to the user (myname) section
+cd
+mkdir compile - create a folder compile
+cd compile
+git clone https://github.com/fundin/fundin.git  - clone the build with github
+cd fundin
+sudo ./autogen.sh
+sudo ./configure
+sudo make
+sudo make install
+
+
+We return to the user (myname) section
+cd
+git clone http://github.com/masternodes/vps.git  - сreate a VPS clone with github
+cd vps - заходим в эту папку 
+cp -r new_coin_template fundin - clone the new_coin_template folder into a temporary folder fundin
+cd fundin - go to the folder fundin
+nano coin.env - edit this file
+
+--------------------ENV----------------------------
+
+CODENAME=fundin  (coin name)
+MNODE_DAEMON={MNODE_DAEMON:-/usr/local/bin/fundind}  ( way to daemon )
+MNODE_INBOUND_PORT=${MNODE_INBOUND_PORT:-7777}    ( port for masternodes)
+GIT_URL=https://github.com/fundin/fundin.git         (compilation build path )
+SCVERSION="tags/v2.0.1"                         (wallet version)
+
+------ save the CRTL + o and exit the editor CTRL + x ------
+
+mv coin.compile fundin.compile - rename file
+mv coin.conf fundin.conf       - rename file
+mv coin.env fundin.env         - rename file
+cd ../                         - go to the folder above
+cp -r fundin config            - we copy the folder fundin in the folder config
+rm -r fundin                   - delete temporary folder fundin
+
+Now run the installation
+sudo ./install.sh -p fundin -c 5 -n 6  - where -p is the name coin, -c is the number of nodes on one VPS, -n type of network ipv6 
+
+After the end you need to edit configs from fundin_n1.conf to fundin_n5.conf
+
+sudo nano /etc/masternodes/fundin_n1.conf
+
+Register (privatkey) in the linemasternodeprivkey=HERE_GOES_YOUR_MASTERNODE_KEY_FOR_MASTERNODE_XXX_GIT_PROJECT_XXX_XXX_NUM_XXX
+
+------ save the CRTL + o and exit the editor CTRL + x ------
+
+In the local wallet open masternode.conf 
+As usual, we write the lines :
+
+Alias | Address IPV6 | PrivateKey | Transaction number | Output index
+R.S. : Address IPV6 can be seen in fundin_n1.conf in line bind 
+Example:
+
+MN01 [2a00:6d40:60:909b:626b::1]:7777 4BLLnjpfmTuMLKEZBojVgPEDcRjSVA1szpLiEKWUrMXobidgP bdbc00e3aff9f4f1a682b2c27c9d62ced05b66c190064b015a18856896867fe1 1 
+---
+---
+---
+MN05 [2a00:6d40:60:909b:626b::5]:7777 4DX8iZh4EzZqP8Gu5tJEt2ZVqNCeV7X8w1nJ9Nq8TT9mdiE7EZ4 72966f8959e6e93012a2ab290dd9aa5827edfa70f057f26810cefdf3da1e4006 0
+
+
+Activate masternodes fundin 
+sudo /usr/local/bin/activate_masternodes_fundin
+
+We are waiting for complete synchronization with the blockchain to end.. And run on a local wallet masternodes.
+Command to check ( getinfo ):
+sudo fundin-cli -conf=/etc/masternodes/fundin_n1.conf getinfo
+
+The command to disable the required masternodes, for example MN03:
+sudo fundin-cli -conf=/etc/mastetnodes/fundin_n3.conf stop
+
+The command to start fundind the desired masternodes, for example MN03:
+sudo fundind -conf=/etc/masternodes/fundin_n3.conf -daemon
+
+Well that's all. Good luck.
+
+If this helped you and you want to thank:
+btc: 19iVEmnyCuEJ58gWDtA7sTy2j6ehwD8ruB
+eth: 0x03fF7f63b7dAa7fbB483c8a288AEffEfCD5EAC63
+ltc: LWUytpcey8fJEmFuEWeEdRDQTcHm7nPpY7
