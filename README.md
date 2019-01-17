@@ -1,2 +1,3 @@
-# Masternode_IPV6_ru
- Installation instructions in VPS are several masternodes on ipv6
+# Masternode_IPV6
+ 
+Installation Instructions Multiple Masternodes on One VPS with ipv6 Support
