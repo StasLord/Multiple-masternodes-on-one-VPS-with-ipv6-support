@@ -25,7 +25,7 @@ sudo apt-get install libdb4.8-dev libdb4.8++-dev -y
 1-ый вариант:
 На момент написания последняя версия v.2.0.1 так что, будьте внимательны при скопировании ссылки с github
 заходим в папку /usr/local/bin/
-cd /usr/local/bin
+cd /usr/local/bi
 sudo wget https://github.com/fundin/fundin/releases/download/v2.0.1/fundind    - копируем daemon
 sudo wget https://github.com/fundin/fundin/releases/download/v2.0.1/fundin-cli - копируем client
 Делаем их бинарными
