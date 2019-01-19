@@ -49,11 +49,11 @@ sudo make install
 
 We return to the user (myname) section
 cd
-git clone http://github.com/masternodes/vps.git  - сreate a VPS clone with github
-cd vps - заходим в эту папку 
+git clone http://github.com/masternodes/vps.git  - Г±reate a VPS clone with github
+cd vps                         -  go to the vps folder
 cp -r new_coin_template fundin - clone the new_coin_template folder into a temporary folder fundin
-cd fundin - go to the folder fundin
-nano coin.env - edit this file
+cd fundin                      - go to the folder fundin
+nano coin.env                  - edit this file
 
 --------------------ENV----------------------------
 
@@ -63,7 +63,7 @@ MNODE_INBOUND_PORT=${MNODE_INBOUND_PORT:-7777}    ( port for masternodes)
 GIT_URL=https://github.com/fundin/fundin.git         (compilation build path )
 SCVERSION="tags/v2.0.1"                         (wallet version)
 
------- save the CRTL + o and exit the editor CTRL + x ------
+------ save CRTL + o and exit editor CTRL + x ------
 
 mv coin.compile fundin.compile - rename file
 mv coin.conf fundin.conf       - rename file
