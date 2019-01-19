@@ -49,11 +49,11 @@ sudo make install
 
 We return to the user (myname) section
 cd
-git clone http://github.com/masternodes/vps.git  - ñreate a VPS clone with github
-cd vps                         -  go to the vps folder
-cp -r new_coin_template fundin - clone the new_coin_template folder into a temporary folder fundin
-cd fundin                      - go to the folder fundin
-nano coin.env                  - edit this file
+git clone http://github.com/masternodes/vps.git  - create a VPS clone with github
+cd vps                                           - go to the vps folder
+cp -r new_coin_template fundin                   - clone the new_coin_template folder into a temporary folder fundin
+cd fundin                                        - go to the folder fundin
+nano coin.env                                    - edit this file
 
 --------------------ENV----------------------------
 
